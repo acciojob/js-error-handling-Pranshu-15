@@ -16,6 +16,13 @@ class InvalidExprError extends Error {
 // Function to evaluate the expression
 function evalString(expr) {
     try {
+		// Remove spaces from the expression
+expr = expr.replace(/\s/g, '');
+
+// Check for invalid characters
+if (/[^0-9+\-*/]/.test(expr)) {
+    throw new OutOfRangeError(expr.match(/[^0-9+\-*/]/)[0]);
+}
         // Check for invalid operator combinations
 if (/\+\+|\-\-|\*\/|\/\+|\*\+|\+\*|\/\*|\-\+|\+\-|\*\-|\/\-/.test(expr)) {
     throw new InvalidExprError();
