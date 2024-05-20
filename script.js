@@ -17,19 +17,19 @@ class InvalidExprError extends Error {
 function evalString(expr) {
     try {
         // Check for invalid operator combinations
-        if (/\+\+|\*\/|\/\+|\*\+|\+\*|\/\*/.test(expr)) {
-            throw new InvalidExprError();
-        }
+if (/\+\+|\-\-|\*\/|\/\+|\*\+|\+\*|\/\*|\-\+|\+\-|\*\-|\/\-/.test(expr)) {
+    throw new InvalidExprError();
+}
 
         // Check if expression starts with an invalid operator
         if (/^[\+\/\*]/.test(expr)) {
             throw new SyntaxError('Expression should not start with invalid operator');
         }
 
-        // Check if expression ends with an invalid operator
-        if (/[\+\/\*-]$/.test(expr)) {
-            throw new SyntaxError('Expression should not end with invalid operator');
-        }
+       // Check if expression ends with an invalid operator
+if (/[\+\/\*]$/.test(expr)) {
+    throw new SyntaxError('Expression should not end with invalid operator');
+}
 
         // Split the expression into numbers and operators
         const tokens = expr.split(/([+\-/*])/).filter(Boolean);
