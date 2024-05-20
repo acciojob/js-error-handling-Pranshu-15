@@ -16,57 +16,31 @@ class InvalidExprError extends Error {
 // Function to evaluate the expression
 function evalString(expr) {
     try {
-		// Remove spaces from the expression
-expr = expr.replace(/\s/g, '');
+        // Remove spaces from the expression
+        expr = expr.replace(/\s/g, '');
 
-// Check for invalid characters
-if (/[^0-9+\-*/]/.test(expr)) {
-    throw new OutOfRangeError(expr.match(/[^0-9+\-*/]/)[0]);
-}
+        // Check for invalid characters
+        if (/[^0-9+\-*/]/.test(expr)) {
+            throw new OutOfRangeError(expr.match(/[^0-9+\-*/]/)[0]);
+        }
+
         // Check for invalid operator combinations
-if (/\+\+|\-\-|\*\/|\/\+|\*\+|\+\*|\/\*|\-\+|\+\-|\*\-|\/\-/.test(expr)) {
-    throw new InvalidExprError();
-}
+        if (/\+\+|\-\-|\*\/|\/\+|\*\+|\+\*|\/\*|\-\+|\+\-|\*\-|\/\-/.test(expr)) {
+            throw new InvalidExprError();
+        }
 
         // Check if expression starts with an invalid operator
         if (/^[\+\/\*]/.test(expr)) {
             throw new SyntaxError('Expression should not start with invalid operator');
         }
 
-       // Check if expression ends with an invalid operator
-if (/[\+\/\*]$/.test(expr)) {
-    throw new SyntaxError('Expression should not end with invalid operator');
-}
-
-        // Split the expression into numbers and operators
-        const tokens = expr.split(/([+\-/*])/).filter(Boolean);
-
-        // Evaluate the expression
-        let result = parseInt(tokens[0], 10);
-        for (let i = 1; i < tokens.length; i += 2) {
-            const operator = tokens[i];
-            const operand = parseInt(tokens[i + 1], 10);
-
-            if (isNaN(operand)) {
-                throw new OutOfRangeError(tokens[i + 1]);
-            }
-
-            switch (operator) {
-                case '+':
-                    result += operand;
-                    break;
-                case '-':
-                    result -= operand;
-                    break;
-                case '*':
-                    result *= operand;
-                    break;
-                case '/':
-                    result = Math.trunc(result / operand);
-                    break;
-            }
+        // Check if expression ends with an invalid operator
+        if (/[\+\/\*]$/.test(expr)) {
+            throw new SyntaxError('Expression should not end with invalid operator');
         }
 
+        // Evaluate the expression
+        let result = eval(expr);
         return result;
     } catch (error) {
         return error.message;
